@@ -4,12 +4,10 @@ import android.os.Bundle;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
 import io.github.kbiakov.codeview.CodeView;
-import io.github.kbiakov.codeview.adapters.Options;
 import io.github.kbiakov.codeview.highlight.ColorTheme;
 import io.github.kbiakov.codeview.highlight.Font;
-import kotlin.Unit;
-import kotlin.jvm.functions.Function1;
 
 public class ListingsActivity extends AppCompatActivity {
 
@@ -156,15 +154,12 @@ public class ListingsActivity extends AppCompatActivity {
                 "        codeView.setCode(getString(R.string.listing_py), \"py\");" +
                 "    }\n" +
                 "}", "java");
-        codeView.updateOptions(new Function1<Options, Unit>() {
-            @Override
-            public Unit invoke(Options options) {
-                options.withFont(Font.Consolas)
-                        .withTheme(ColorTheme.SOLARIZED_LIGHT)
-                        .withShadows()
-                        .setShortcut(false);
-                return null;
-            }
+        codeView.updateOptions(options -> {
+            options.withFont(Font.Consolas)
+                    .withTheme(ColorTheme.SOLARIZED_LIGHT)
+                    .withShadows()
+                    .setShortcut(false);
+            return null;
         });
     }
 }

@@ -25,8 +25,8 @@ object CodeHighlighter {
         val colors = buildColorsMap(theme)
 
         return PrettifyParser().parse(language, source)
-                .map { source highlight it applyFontParams colors[it] }
-                .reduce(String::plus)
+            .map { source highlight it applyFontParams colors[it] }
+            .reduce(String::plus)
     }
 
     // - Helpers
@@ -48,7 +48,7 @@ object CodeHighlighter {
      * @return Color for syntax unit
      */
     private operator fun HashMap<String, String>.get(result: ParseResult) =
-            this[result.styleKeys[0]] ?: this["pln"]
+        this[result.styleKeys[0]] ?: this["pln"]
 
     /**
      * Build fast accessor (as map) for selected color theme.
@@ -58,21 +58,21 @@ object CodeHighlighter {
      */
     private fun buildColorsMap(theme: ColorThemeData): HashMap<String, String> {
         fun color(body: SyntaxColors.() -> Int) =
-                theme.syntaxColors.let { body(it).hex() }
+            theme.syntaxColors.let { body(it).hex() }
         return hashMapOf(
-                "typ" to color { type },
-                "kwd" to color { keyword },
-                "lit" to color { literal },
-                "com" to color { comment },
-                "str" to color { string },
-                "pun" to color { punctuation },
-                "pln" to color { plain },
-                "tag" to color { tag },
-                "dec" to color { declaration },
-                "src" to color { plain },
-                "atn" to color { attrName },
-                "atv" to color { attrValue },
-                "nocode" to color { plain })
+            "typ" to color { type },
+            "kwd" to color { keyword },
+            "lit" to color { literal },
+            "com" to color { comment },
+            "str" to color { string },
+            "pun" to color { punctuation },
+            "pln" to color { plain },
+            "tag" to color { tag },
+            "dec" to color { declaration },
+            "src" to color { plain },
+            "atn" to color { attrName },
+            "atv" to color { attrValue },
+            "nocode" to color { plain })
     }
 
     // - Escaping/extracting "less then" symbol
@@ -86,107 +86,92 @@ object CodeHighlighter {
  * Color theme presets.
  */
 enum class ColorTheme(
-        val syntaxColors: SyntaxColors = SyntaxColors(),
-        val numColor: Int,
-        val bgContent: Int,
-        val bgNum: Int,
-        val noteColor: Int) {
-
+    val syntaxColors: SyntaxColors = SyntaxColors(),
+    val numColor: Int,
+    val bgContent: Int,
+    val bgNum: Int,
+    val noteColor: Int
+) {
     SOLARIZED_LIGHT(
-            numColor = 0x93A1A1,
-            bgContent = 0xFDF6E3,
-            bgNum = 0xEEE8D5,
-            noteColor = 0x657B83),
+        numColor = 0x93A1A1,
+        bgContent = 0xFDF6E3,
+        bgNum = 0xEEE8D5,
+        noteColor = 0x657B83
+    ),
 
     MONOKAI(
-            syntaxColors = SyntaxColors(
-                    type = 0xA7E22E,
-                    keyword = 0xFA2772,
-                    literal = 0x66D9EE,
-                    comment = 0x76715E,
-                    string = 0xE6DB74,
-                    punctuation = 0xC1C1C1,
-                    plain = 0xF8F8F0,
-                    tag = 0xF92672,
-                    declaration = 0xFA2772,
-                    attrName = 0xA6E22E,
-                    attrValue = 0xE6DB74),
-            numColor = 0x48483E,
-            bgContent = 0x272822,
-            bgNum = 0x272822,
-            noteColor = 0xCFD0C2),
+        syntaxColors = SyntaxColors(
+            type = 0xA7E22E,
+            keyword = 0xFA2772,
+            literal = 0x66D9EE,
+            comment = 0x76715E,
+            string = 0xE6DB74,
+            punctuation = 0xC1C1C1,
+            plain = 0xF8F8F0,
+            tag = 0xF92672,
+            declaration = 0xFA2772,
+            attrName = 0xA6E22E,
+            attrValue = 0xE6DB74
+        ),
+        numColor = 0x48483E,
+        bgContent = 0x272822,
+        bgNum = 0x272822,
+        noteColor = 0xCFD0C2
+    ),
 
     DEFAULT(
-            numColor = 0x99A8B7,
-            bgContent = 0xE9EDF4,
-            bgNum = 0xF2F2F6,
-            noteColor = 0x4C5D6E);
+        numColor = 0x99A8B7,
+        bgContent = 0xE9EDF4,
+        bgNum = 0xF2F2F6,
+        noteColor = 0x4C5D6E
+    );
 
     fun theme() = ColorThemeData(
-            syntaxColors,
-            numColor,
-            bgContent,
-            bgNum,
-            noteColor)
+        syntaxColors,
+        numColor,
+        bgContent,
+        bgNum,
+        noteColor
+    )
 }
 
 /**
  * Custom color theme.
  */
 data class ColorThemeData(
-        val syntaxColors: SyntaxColors = SyntaxColors(),
-        val numColor: Int,
-        val bgContent: Int,
-        val bgNum: Int,
-        val noteColor: Int) {
-
-    /**
-     * Decompose preset color theme to data.
-     * Use this form for using from Kotlin.
-     */
-    fun with(
-            mySyntaxColors: SyntaxColors = syntaxColors,
-            myNumColor: Int = numColor,
-            myBgContent: Int = bgContent,
-            myBgNum: Int = bgNum,
-            myNoteColor: Int = noteColor
-    ) = this
-
+    val syntaxColors: SyntaxColors = SyntaxColors(),
+    val numColor: Int,
+    val bgContent: Int,
+    val bgNum: Int,
+    val noteColor: Int
+) {
     /**
      * Decompose preset color theme to data.
      * Use this form for using from Java.
      */
-    fun withSyntaxColors(mySyntaxColors: SyntaxColors) =
-            with(mySyntaxColors = mySyntaxColors)
-
-    fun withNumColor(myNumColor: Int) =
-            with(myNumColor = myNumColor)
-
-    fun withBgContent(myBgContent: Int) =
-            with(myBgContent = myBgContent)
-
-    fun withBgNum(myBgNum: Int) =
-            with(myBgNum = myBgNum)
-
-    fun withNoteColor(myNoteColor: Int) =
-            with(myNoteColor = myNoteColor)
+    fun withSyntaxColors(syntaxColors: SyntaxColors) = copy(syntaxColors = syntaxColors)
+    fun withNumColor(numColor: Int) = copy(numColor = numColor)
+    fun withBgContent(bgContent: Int) = copy(bgContent = bgContent)
+    fun withBgNum(bgNum: Int) = copy(bgNum = bgNum)
+    fun withNoteColor(noteColor: Int) = copy(noteColor = noteColor)
 }
 
 /**
  * Colors for highlighting code units.
  */
 data class SyntaxColors(
-        val type: Int = 0x859900,
-        val keyword: Int = 0x268BD2,
-        val literal: Int = 0x269186,
-        val comment: Int = 0x93A1A1,
-        val string: Int = 0x269186,
-        val punctuation: Int = 0x586E75,
-        val plain: Int = 0x586E75,
-        val tag: Int = 0x859900,
-        val declaration: Int = 0x268BD2,
-        val attrName: Int = 0x268BD2,
-        val attrValue: Int = 0x269186)
+    val type: Int = 0x859900,
+    val keyword: Int = 0x268BD2,
+    val literal: Int = 0x269186,
+    val comment: Int = 0x93A1A1,
+    val string: Int = 0x269186,
+    val punctuation: Int = 0x586E75,
+    val plain: Int = 0x586E75,
+    val tag: Int = 0x859900,
+    val declaration: Int = 0x268BD2,
+    val attrName: Int = 0x268BD2,
+    val attrValue: Int = 0x269186
+)
 
 /**
  * Font presets.
@@ -260,12 +245,12 @@ infix fun String.applyFontParams(color: String?): String {
  * @return String wrapped in font tag
  */
 private infix fun String.inFontTag(color: String?) =
-        "<font color=\"$color\">${escLineBreakAtStart()}</font>"
+    "<font color=\"$color\">${escLineBreakAtStart()}</font>"
 
 /**
  * @return String with escaped line break at start
  */
 fun String.escLineBreakAtStart() =
-        if (startsWith("\n") && length >= 1)
-            substring(1)
-        else this
+    if (startsWith("\n") && length >= 1)
+        substring(1)
+    else this
