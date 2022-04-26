@@ -8,6 +8,7 @@ val androidMinSdkVersion: Int by rootProject
 val kotlinVersion: String by rootProject
 
 android {
+    namespace = "io.github.kbiakov.codeview"
     compileSdk = androidCompileSdkVersion
 
     defaultConfig {
