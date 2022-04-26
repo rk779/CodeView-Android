@@ -1,6 +1,7 @@
 plugins {
     id("com.android.library")
     kotlin("android")
+    id("maven-publish")
 }
 
 val androidCompileSdkVersion: Int by rootProject
@@ -40,4 +41,17 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:$kotlinVersion")
     implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("androidx.recyclerview:recyclerview:1.2.1")
+}
+
+afterEvaluate {
+    publishing {
+        publications {
+            create<MavenPublication>("release") {
+                from(components["release"])
+                groupId = "com.github.kbiakov"
+                artifactId = "CodeView-Android"
+                version = "1.3.2"
+            }
+        }
+    }
 }
