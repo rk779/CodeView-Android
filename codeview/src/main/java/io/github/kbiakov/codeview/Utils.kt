@@ -116,7 +116,7 @@ object Thread {
      * @param delayMs Delay in m
      */
     fun delayed(delayMs: Long = Const.DefaultDelay, body: () -> Unit) {
-        Handler().postDelayed(body, delayMs)
+        Handler(Looper.getMainLooper()).postDelayed(body, delayMs)
     }
 
     // - Extensions for block manipulations
@@ -146,7 +146,7 @@ object Files {
     fun content(context: Context, path: String): String {
         var content = ""
 
-        ls(context, path).forEach { filename ->
+        ls(context, path)?.forEach { filename ->
             val input = context.assets.open("$path/$filename")
 
             BufferedReader(InputStreamReader(input, "UTF-8")).useLines {

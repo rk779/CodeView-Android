@@ -114,10 +114,7 @@ class CodeView @JvmOverloads constructor(
      * @param options Options
      */
     fun updateOptions(options: Options) {
-        adapter
-                ?.let { it.options = options }
-                ?: setOptions(options)
-
+        adapter?.let { it.options = options } ?: setOptions(options)
         setupShadows(options.shadows)
     }
 
@@ -127,9 +124,8 @@ class CodeView @JvmOverloads constructor(
      * @param body Options mutator
      */
     fun updateOptions(body: Options.() -> Unit) =
-            optionsOrDefault
-                    .apply(body)
-                    .apply(::updateOptions)
+            optionsOrDefault.apply(body)
+                .also { updateOptions(it) }
 
     // - Adapter
 
