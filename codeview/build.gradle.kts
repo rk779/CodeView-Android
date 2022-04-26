@@ -35,6 +35,10 @@ android {
     lint {
         abortOnError = false
     }
+
+    publishing {
+        singleVariant("release")
+    }
 }
 
 dependencies {

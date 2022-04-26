@@ -865,7 +865,7 @@ public class Prettify {
 
   protected List<String> getFileExtensionsFromClass(Class<? extends Lang> clazz) throws Exception {
     Method getExtensionsMethod = clazz.getMethod("getFileExtensions", (Class<?>[]) null);
-    return (List<String>) getExtensionsMethod.invoke(null, null);
+    return (List<String>) getExtensionsMethod.invoke(null, (Object[]) null);
   }
 
   /**
